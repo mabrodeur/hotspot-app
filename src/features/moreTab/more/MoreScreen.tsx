@@ -33,6 +33,7 @@ import hotspotsSlice from '../../../store/hotspots/hotspotsSlice'
 import { useLanguageContext } from '../../../providers/LanguageProvider'
 import { EXPLORER_BASE_URL } from '../../../utils/config'
 import { SUPPORTED_LANGUAGUES } from '../../../utils/i18n/i18nTypes'
+import { SUPPORTED_CURRENCIES } from '../../../utils/currencies'
 import Articles from '../../../constants/articles'
 import useAlert from '../../../utils/useAlert'
 
@@ -175,6 +176,13 @@ const MoreScreen = () => {
     [changeLanguage],
   )
 
+  const handleCurrencyChange = useCallback(
+    (value: string) => {
+      dispatch(appSlice.actions.updateCurrencyUsedForConversion(value))
+    },
+    [dispatch],
+  )
+
   const handleIntervalSelected = useCallback(
     (value: ReactText) => {
       const number = typeof value === 'number' ? value : parseInt(value, 10)
@@ -280,6 +288,14 @@ const MoreScreen = () => {
             title: t('more.sections.app.convertHntToCurrency'),
             onToggle: handleConvertHntToCurrency,
             value: app.convertHntToCurrency,
+          },
+          {
+            title: t('more.sections.app.currencyUsedForConversion'),
+            value: app.currencyUsedForConversion,
+            select: {
+              items: SUPPORTED_CURRENCIES,
+              onValueSelect: handleCurrencyChange,
+            },
           },
           {
             title: t('more.sections.app.enableFleetMode'),

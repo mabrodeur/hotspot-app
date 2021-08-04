@@ -519,6 +519,7 @@ export default {
         title: '앱',
         enableHapticFeedback: '햅틱 피드백 활성화',
         convertHntToCurrency: 'HNT를 통화로 변환',
+        currencyUsedForConversion: 'Currency Used for Conversion',
         language: '언어',
         signOut: '로그아웃',
         signOutAlert: {

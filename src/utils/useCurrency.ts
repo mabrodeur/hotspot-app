@@ -10,7 +10,8 @@ import { fetchCurrentOraclePrice } from '../store/helium/heliumDataSlice'
 import { RootState } from '../store/rootReducer'
 import { useAppDispatch } from '../store/store'
 import appSlice from '../store/user/appSlice'
-import { currencyType, decimalSeparator, groupSeparator, locale } from './i18n'
+import { decimalSeparator, groupSeparator, locale } from './i18n'
+import { getCurrencyForConversion } from './currencies'
 
 const useCurrency = () => {
   const { t } = useTranslation()
@@ -31,9 +32,10 @@ const useCurrency = () => {
   )
 
   const formatCurrency = useCallback(async (value: number) => {
+    const currencyForConversion = await getCurrencyForConversion()
     const formattedCurrency = await CurrencyFormatter.format(
       value,
-      currencyType,
+      currencyForConversion,
     )
     return formattedCurrency
   }, [])
@@ -54,7 +56,8 @@ const useCurrency = () => {
 
   const hntToDisplayVal = useCallback(
     async (amount: number, maxDecimalPlaces = 2) => {
-      const multiplier = currentPrices?.[currencyType.toLowerCase()] || 0
+      const currencyForConversion = await getCurrencyForConversion()
+      const multiplier = currentPrices?.[currencyForConversion.toLowerCase()] || 0
       const showAsHnt = !convert || !multiplier
 
       if (showAsHnt) {
@@ -83,7 +86,8 @@ const useCurrency = () => {
       split?: boolean,
       maxDecimalPlaces = 2,
     ) => {
-      const multiplier = currentPrices?.[currencyType.toLowerCase()] || 0
+      const currencyForConversion = await getCurrencyForConversion()
+      const multiplier = currentPrices?.[currencyForConversion.toLowerCase()] || 0
 
       const showAsHnt = !convert || !multiplier
       if (showAsHnt) {
@@ -116,7 +120,7 @@ const useCurrency = () => {
       const formattedValue: string = await formatCurrency(convertedValue)
 
       if (split) {
-        const decimalPart = t('generic.hnt_to_currency', { currencyType })
+        const decimalPart = t('generic.hnt_to_currency', { currencyForConversion })
         return { integerPart: formattedValue, decimalPart }
       }
       return formattedValue

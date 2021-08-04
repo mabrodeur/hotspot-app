@@ -562,6 +562,7 @@ export default {
         enableHapticFeedback: 'Enable Haptic Feedback',
         enableFleetMode: 'Enable Fleet Mode',
         convertHntToCurrency: 'Convert HNT to Currency',
+        currencyUsedForConversion: 'Currency Used for Conversion',
         language: 'Language',
         signOut: 'Sign Out',
         signOutAlert: {

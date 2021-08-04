@@ -489,6 +489,7 @@ export default {
         title: '应用程序',
         enableHapticFeedback: '启用触觉反馈',
         convertHntToCurrency: '将 HNT 转换为货币',
+        currencyUsedForConversion: 'Currency Used for Conversion',
         language: '语言',
         signOut: '注销',
         signOutAlert: {

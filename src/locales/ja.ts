@@ -535,6 +535,7 @@ export default {
         title: 'アプリ',
         enableHapticFeedback: '触覚フィードバックを有効にする',
         convertHntToCurrency: 'HNTを通貨に変換する',
+        currencyUsedForConversion: 'Currency Used for Conversion',
         language: '言語',
         signOut: 'サインアウト',
         signOutAlert: {

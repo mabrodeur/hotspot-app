@@ -7,6 +7,7 @@ import {
   signOut,
 } from '../../utils/secureAccount'
 import { Intervals } from '../../features/moreTab/more/useAuthIntervals'
+import { getCurrencyForConversion } from '../../utils/currencies'
 
 export type AppState = {
   isBackedUp: boolean
@@ -14,6 +15,7 @@ export type AppState = {
   isFleetModeEnabled: boolean
   hasFleetModeAutoEnabled: boolean
   convertHntToCurrency: boolean
+  currencyUsedForConversion: string
   isSettingUpHotspot: boolean
   isRestored: boolean
   isPinRequired: boolean
@@ -28,6 +30,7 @@ const initialState: AppState = {
   isHapticDisabled: false,
   isFleetModeEnabled: false,
   convertHntToCurrency: false,
+  currencyUsedForConversion: 'USD',
   isSettingUpHotspot: false,
   isRestored: false,
   isPinRequired: false,
@@ -59,6 +62,7 @@ export const restoreUser = createAsyncThunk<Restore>(
       authInterval,
       isHapticDisabled,
       convertHntToCurrency,
+      currencyUsedForConversion,
       address,
       isFleetModeEnabled,
       hasFleetModeAutoEnabled,
@@ -69,6 +73,7 @@ export const restoreUser = createAsyncThunk<Restore>(
       getSecureItem('authInterval'),
       getSecureItem('hapticDisabled'),
       getSecureItem('convertHntToCurrency'),
+      getCurrencyForConversion(),
       getSecureItem('address'),
       getSecureItem('fleetModeEnabled'),
       getSecureItem('hasFleetModeAutoEnabled'),
@@ -87,6 +92,7 @@ export const restoreUser = createAsyncThunk<Restore>(
       isLocked: isPinRequired,
       isHapticDisabled,
       convertHntToCurrency,
+      currencyUsedForConversion,
       isFleetModeEnabled,
       hasFleetModeAutoEnabled,
     } as Restore
@@ -138,6 +144,10 @@ const appSlice = createSlice({
     updateConvertHntToCurrency: (state, action: PayloadAction<boolean>) => {
       state.convertHntToCurrency = action.payload
       setSecureItem('convertHntToCurrency', action.payload)
+    },
+    updateCurrencyUsedForConversion: (state, action: PayloadAction<string>) => {
+      state.currencyUsedForConversion = action.payload
+      setSecureItem('currencyUsedForConversion', action.payload)
     },
     updateAuthInterval: (state, action: PayloadAction<number>) => {
       state.authInterval = action.payload
