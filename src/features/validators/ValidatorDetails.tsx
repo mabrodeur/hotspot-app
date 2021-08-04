@@ -9,13 +9,15 @@ import Carousel from 'react-native-snap-carousel'
 import Penalty from '@assets/images/penalty.svg'
 import Heartbeat from '@assets/images/heartbeat.svg'
 import Cooldown from '@assets/images/cooldown.svg'
+import Data from '@assets/images/data.svg'
 import VersionHeartbeat from '@assets/images/versionHeartbeat.svg'
+import LocationMarker from '@assets/images/locationMarker.svg'
 import Box from '../../components/Box'
 import Text from '../../components/Text'
 import HeliumSelect from '../../components/HeliumSelect'
 import { HeliumSelectItemType } from '../../components/HeliumSelectItem'
 import { wh, wp } from '../../utils/layout'
-import ConsensusBanner from './ConsensusBanner'
+import ConsensusBanner, { CONSENSUS_BANNER_HEIGHT } from './ConsensusBanner'
 import FocusAwareStatusBar from '../../components/FocusAwareStatusBar'
 import ShareSheet from '../../components/ShareSheet'
 import { useAppDispatch } from '../../store/store'
@@ -101,7 +103,7 @@ const ValidatorDetails = ({ validator }: Props) => {
   const contentStyle = useMemo(() => {
     if (inConsensus) return {}
 
-    return { marginTop: top }
+    return { marginTop: top + CONSENSUS_BANNER_HEIGHT }
   }, [inConsensus, top])
 
   type RenderItemProp = { item: HeliumSelectItemType }
@@ -157,36 +159,8 @@ const ValidatorDetails = ({ validator }: Props) => {
       <ScrollView>
         <Box style={contentStyle} backgroundColor="grayBoxLight">
           <Box padding="lm" backgroundColor="white">
-            <Box
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="flex-end"
-            >
-              <FollowValidatorButton address={validator?.address || ''} />
-              <ShareSheet item={validator} />
-            </Box>
-            <Box marginBottom="lm">
-              <Text
-                variant="light"
-                fontSize={29}
-                lineHeight={31}
-                color="black"
-                numberOfLines={1}
-                adjustsFontSizeToFit
-              >
-                {formattedHotspotName[0]}
-              </Text>
-              <Text
-                variant="regular"
-                fontSize={29}
-                lineHeight={31}
-                color="black"
-                numberOfLines={1}
-                adjustsFontSizeToFit
-              >
-                {formattedHotspotName[1]}
-              </Text>
-              <Box flexDirection="row" marginTop="s" height={24}>
+            <Box flexDirection="row" alignItems="center" marginBottom="lm">
+              <Box flexDirection="row" height={24} flex={1}>
                 <Box
                   backgroundColor={isOnline ? 'greenOnline' : 'orangeDark'}
                   borderRadius="round"
@@ -274,6 +248,51 @@ const ValidatorDetails = ({ validator }: Props) => {
                   </Box>
                 )}
               </Box>
+              <FollowValidatorButton address={validator?.address || ''} />
+              <ShareSheet item={validator} />
+            </Box>
+            <Box marginBottom="lm">
+              <Text
+                variant="light"
+                fontSize={29}
+                lineHeight={31}
+                color="black"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                {formattedHotspotName[0]}
+              </Text>
+              <Text
+                variant="regular"
+                fontSize={29}
+                lineHeight={31}
+                color="black"
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                {formattedHotspotName[1]}
+              </Text>
+            </Box>
+            <Box flexDirection="row" alignItems="center">
+              <LocationMarker />
+              <Text
+                variant="regular"
+                color="grayText"
+                fontSize={13}
+                marginLeft="xs"
+                marginRight="m"
+              >
+                San Francisco, CA
+              </Text>
+              <Data />
+              <Text
+                variant="regular"
+                color="grayText"
+                fontSize={13}
+                marginLeft="xs"
+              >
+                OVH SAS
+              </Text>
             </Box>
           </Box>
 
