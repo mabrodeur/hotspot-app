@@ -21,7 +21,10 @@ import ConsensusBanner, { CONSENSUS_BANNER_HEIGHT } from './ConsensusBanner'
 import FocusAwareStatusBar from '../../components/FocusAwareStatusBar'
 import ShareSheet from '../../components/ShareSheet'
 import { useAppDispatch } from '../../store/store'
-import { fetchElectedValidators } from '../../store/validators/validatorsSlice'
+import {
+  fetchElectedValidators,
+  fetchWalletValidator,
+} from '../../store/validators/validatorsSlice'
 import { RootState } from '../../store/rootReducer'
 import ValidatorDetailsOverview from './ValidatorDetailsOverview'
 import { useSpacing } from '../../theme/themeHooks'
@@ -43,6 +46,10 @@ const ValidatorDetails = ({ validator }: Props) => {
   const electedValidators = useSelector(
     (state: RootState) => state.validators.electedValidators,
   )
+  const walletValidator = useSelector(
+    (state: RootState) =>
+      state.validators.walletValidators[validator?.address || ''],
+  )
   const carouselRef = useRef<Carousel<HeliumSelectItemType>>(null)
 
   const unstaked = useMemo(() => {
@@ -53,6 +60,7 @@ const ValidatorDetails = ({ validator }: Props) => {
   useEffect(() => {
     if (!validator) return
     dispatch(fetchElectedValidators())
+    dispatch(fetchWalletValidator(validator.address))
   }, [dispatch, validator])
 
   const formattedHotspotName = useMemo(() => {
@@ -144,6 +152,20 @@ const ValidatorDetails = ({ validator }: Props) => {
         : t('validator_details.status_offline'),
     [isOnline, t],
   )
+
+  const location = useMemo(() => {
+    if (!walletValidator?.geocode) {
+      return ''
+    }
+    const {
+      geocode: { city, countryCode, regionCode },
+    } = walletValidator
+
+    return [
+      [city, regionCode, countryCode].filter((g) => !!g).join(', '),
+      [regionCode, countryCode].filter((g) => !!g).join(', '),
+    ]
+  }, [walletValidator])
 
   return (
     <Box
@@ -282,7 +304,7 @@ const ValidatorDetails = ({ validator }: Props) => {
                 marginLeft="xs"
                 marginRight="m"
               >
-                San Francisco, CA
+                {location[0]}
               </Text>
               <Data />
               <Text
@@ -291,7 +313,7 @@ const ValidatorDetails = ({ validator }: Props) => {
                 fontSize={13}
                 marginLeft="xs"
               >
-                OVH SAS
+                {location[1]}
               </Text>
             </Box>
           </Box>
