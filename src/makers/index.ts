@@ -1,4 +1,5 @@
 import bobcat from './bobcat'
+import cotx from './cotx'
 import clodpi from './clodpi'
 import customAntennas from './custom/antennas'
 import finestra from './finestra'
@@ -10,11 +11,13 @@ import rak from './rak'
 import sensecap from './sensecap'
 import syncrobit from './syncrobit'
 import kerlink from './kerlink'
+import pisces from './pisces'
 import { LangType, supportedLangs } from '../utils/i18n/i18nTypes'
 import { HotspotMakerLangField } from './hotspotMakerTypes'
 
 export const Makers: Record<string, { id: number; supportEmail: string }> = {
   bobcat,
+  cotx,
   clodpi,
   finestra,
   helium,
@@ -25,10 +28,12 @@ export const Makers: Record<string, { id: number; supportEmail: string }> = {
   sensecap,
   syncrobit,
   kerlink,
+  pisces,
 }
 
 export const AntennaModels = {
   ...bobcat.antennas,
+  ...cotx.antennas,
   ...clodpi.antennas,
   ...customAntennas,
   ...finestra.antennas,
@@ -40,10 +45,12 @@ export const AntennaModels = {
   ...sensecap.antennas,
   ...syncrobit.antennas,
   ...kerlink.antennas,
+  ...pisces.antennas,
 }
 
 export const HotspotMakerModels = {
   ...bobcat.hotspots,
+  ...cotx.hotspots,
   ...clodpi.hotspots,
   ...finestra.hotspots,
   ...helium.hotspots,
@@ -54,6 +61,7 @@ export const HotspotMakerModels = {
   ...sensecap.hotspots,
   ...syncrobit.hotspots,
   ...kerlink.hotspots,
+  ...pisces.hotspots,
 }
 
 export type HotspotType = keyof typeof HotspotMakerModels

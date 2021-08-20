@@ -6,6 +6,7 @@ import {
   setSecureItem,
   signOut,
 } from '../../utils/secureAccount'
+import * as Logger from '../../utils/logger'
 import { Intervals } from '../../features/moreTab/more/useAuthIntervals'
 import { getCurrencyForConversion } from '../../utils/currencies'
 
@@ -81,6 +82,7 @@ export const restoreUser = createAsyncThunk<Restore>(
 
     if (isBackedUp && address) {
       OneSignal.sendTags({ address })
+      Logger.setUser(address)
     }
     return {
       isBackedUp,
